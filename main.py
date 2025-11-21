@@ -3,7 +3,20 @@ from openpyxl import load_workbook
 from openpyxl.styles import Border, Side, PatternFill
 
 # Загружаем файл, пропуская первые две строки
-file_path = "_fmov2gsm.xlsx"
+file_path = "ferro.xlsx"
+
+wb_src = load_workbook(file_path)
+ws_src = wb_src.active
+
+# Значение в ячейке P3
+p3_value = ws_src["P3"].value
+
+# Заменяем на "Кол-во", если другое
+if p3_value != "Кол-во":
+    ws_src["P3"].value = "Кол-во"
+    wb_src.save(file_path)
+    print("Значение в P3 исправлено на 'Кол-во'.")
+
 df = pd.read_excel(file_path, sheet_name="Снимок экрана", header=1, skiprows=[0])
 
 # Группируем по коду и наименованию ТМЦ, суммируем количество
